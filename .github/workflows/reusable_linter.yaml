@@ -47,6 +47,9 @@ on:
         required: false
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   # github action workflow linter
   actionlint:
