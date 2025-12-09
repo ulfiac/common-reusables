@@ -50,7 +50,7 @@ on:
 jobs:
   # github action workflow linter
   actionlint:
-    if: ${{ inputs.actionlint == 'true' }}
+    if: ${{ inputs.actionlint }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -60,7 +60,7 @@ jobs:
 
   # shell script linter
   shellcheck:
-    if: ${{ inputs.shellcheck == 'true' }}
+    if: ${{ inputs.shellcheck }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -70,7 +70,7 @@ jobs:
 
   # terraform syntax linter
   terraform-fmt:
-    if: ${{ inputs.terraform-fmt == 'true' }}
+    if: ${{ inputs.terraform-fmt }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -82,7 +82,7 @@ jobs:
 
   # terraform linter
   tflint:
-    if: ${{ inputs.tflint == 'true' }}
+    if: ${{ inputs.tflint }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -92,7 +92,7 @@ jobs:
 
   # security scanner
   trivy-config:
-    if: ${{ inputs.trivy-config == 'true' }}
+    if: ${{ inputs.trivy-config }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
