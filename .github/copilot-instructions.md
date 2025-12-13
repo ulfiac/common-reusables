@@ -31,7 +31,6 @@ uses: ulfiac/github-action-reusables/.github/workflows/reusable_linter.yaml@main
 
 ## Development Guidelines
 - Keep workflows generic and configurable through inputs.
-- Maintain backward compatibility when updating workflows.
 - Use `mise.toml` for specifying a tool's version only if the tool requires it.
 - Test changes locally and in dependent repositories before merging.
 - Update this instruction file when adding new reusable workflows or significant changes.
