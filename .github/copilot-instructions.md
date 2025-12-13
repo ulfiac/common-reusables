@@ -5,11 +5,13 @@ This repository, `github-action-reusables`, serves as a centralized hub for reus
 
 ## Key Components
 - **Reusable Workflows**: Located in `.github/workflows/`, these are designed to be called from other repositories using `workflow_call`.
+- **Tool Version Management**: `mise.toml` at the root specifies tool versions (e.g., Terragrunt) for consistent environment setup.
 - **Primary Workflow**: `reusable_linter.yaml` - A comprehensive linting workflow that performs multiple checks:
   - GitHub Actions workflow linting (actionlint)
   - Shell script linting (shellcheck)
   - Terraform formatting validation (terraform fmt)
   - Terraform static analysis (tflint)
+  - HCL formatting validation (terragrunt hcl fmt)
   - Security scanning of configuration files (trivy config)
 
 ## Interrelations with Other Repositories
@@ -30,6 +32,7 @@ uses: ulfiac/github-action-reusables/.github/workflows/reusable_linter.yaml@main
 ## Development Guidelines
 - Keep workflows generic and configurable through inputs.
 - Maintain backward compatibility when updating workflows.
+- Use `mise.toml` for specifying a tool's version only if the tool requires it.
 - Test changes locally and in dependent repositories before merging.
 - Update this instruction file when adding new reusable workflows or significant changes.
 
