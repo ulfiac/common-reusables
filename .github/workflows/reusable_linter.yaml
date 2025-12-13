@@ -12,26 +12,14 @@ on:
         default: true
         required: false
         type: boolean
-      shellcheck-scandir:
-        default: '.'
-        required: false
-        type: string
       terraform-fmt:
         default: true
         required: false
         type: boolean
-      terraform-fmt-path:
-        default: '.'
-        required: false
-        type: string
       terragrunt-hcl-fmt:
         default: true
         required: false
         type: boolean
-      terragrunt-hcl-fmt-path:
-        default: '.'
-        required: false
-        type: string
       tflint:
         default: true
         required: false
@@ -40,10 +28,6 @@ on:
         default: true
         required: false
         type: boolean
-      trivy-config-path:
-        default: '.'
-        required: false
-        type: string
 
   workflow_dispatch:
     inputs:
@@ -55,26 +39,14 @@ on:
         default: true
         required: false
         type: boolean
-      shellcheck-scandir:
-        default: '.'
-        required: false
-        type: string
       terraform-fmt:
         default: true
         required: false
         type: boolean
-      terraform-fmt-path:
-        default: '.'
-        required: false
-        type: string
       terragrunt-hcl-fmt:
         default: true
         required: false
         type: boolean
-      terragrunt-hcl-fmt-path:
-        default: '.'
-        required: false
-        type: string
       tflint:
         default: true
         required: false
@@ -83,10 +55,6 @@ on:
         default: true
         required: false
         type: boolean
-      trivy-config-path:
-        default: '.'
-        required: false
-        type: string
 
 permissions:
   contents: read
@@ -110,7 +78,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
       - uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # v2.0.0, released 2023-01
         with:
-          scandir: ${{ inputs.shellcheck-scandir }}
+          scandir: .
 
   # terraform syntax linter
   terraform-fmt:
@@ -122,7 +90,7 @@ jobs:
         with:
           terraform_wrapper: false
       - run: terraform --version
-      - run: terraform fmt -check -diff -recursive ${{ inputs.terraform-fmt-path }}
+      - run: terraform fmt -check -diff -recursive .
 
   # hcl syntax linter
   terragrunt-hcl-fmt:
@@ -132,7 +100,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
       - uses: gruntwork-io/terragrunt-action@95fc057922e3c3d4cc021a81a213f088f333ddef # v3.0.2, released 2025-07
       - run: terragrunt --version
-      - run: terragrunt hcl fmt --check --diff ${{ inputs.terragrunt-hcl-fmt-path }}
+      - run: terragrunt hcl fmt --check --diff .
 
   # terraform linter
   tflint:
@@ -152,4 +120,4 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
       - uses: aquasecurity/setup-trivy@e6c2c5e321ed9123bda567646e2f96565e34abe1 # v0.2.4, released 2025-08
       - run: trivy --version
-      - run: trivy config --exit-code 1 ${{ inputs.trivy-config-path }}
+      - run: trivy config --exit-code 1 .
