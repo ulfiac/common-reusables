@@ -13,6 +13,7 @@ This repository, `github-action-reusables`, serves as a centralized hub for reus
   - Terraform static analysis (tflint)
   - HCL formatting validation (terragrunt hcl fmt)
   - Security scanning of configuration files (trivy config)
+- **Release Workflow**: `reusable_release_on_main.yaml` - Automates releases and tags on PR merges to main using configurable date-based versioning (e.g., v2025.12.14.1).
 
 ## Interrelations with Other Repositories
 This repository is used by several other repositories in the workspace as a shared dependency:
@@ -27,6 +28,11 @@ This repository is used by several other repositories in the workspace as a shar
 Other repositories reference this workflow using:
 ```yaml
 uses: ulfiac/github-action-reusables/.github/workflows/reusable_linter.yaml@main
+```
+
+For releases on PR merges:
+```yaml
+uses: ulfiac/github-action-reusables/.github/workflows/reusable_release_on_main.yaml@main
 ```
 
 ## Development Guidelines

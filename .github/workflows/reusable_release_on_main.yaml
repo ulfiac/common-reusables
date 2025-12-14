@@ -1,0 +1,70 @@
+name: Reusable Release on Main Branch
+
+on:
+  workflow_call:
+    inputs:
+      date_format:
+        description: 'Date format for versioning (e.g., %Y.%m.%d)'
+        required: false
+        default: '%Y.%m.%d'
+        type: string
+      release_title:
+        description: 'Title for the release'
+        required: false
+        default: 'Release ${{ github.sha }}'
+        type: string
+      release_body:
+        description: 'Body for the release notes'
+        required: false
+        default: 'Automated release from commit ${{ github.sha }}'
+        type: string
+      draft:
+        description: 'Create as draft release'
+        required: false
+        default: false
+        type: boolean
+      prerelease:
+        description: 'Mark as prerelease'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for tagging
+
+      - name: Generate date-based tag version
+        id: tag
+        run: |
+          DATE_TAG="v$(date +${{ inputs.date_format }})"
+          # Find the next sequential number for the day
+          EXISTING_TAGS=$(git tag -l "${DATE_TAG}.*" | sort -V)
+          if [ -z "$EXISTING_TAGS" ]; then
+            NEXT_NUM=1
+          else
+            LAST_TAG=$(echo "$EXISTING_TAGS" | tail -1)
+            LAST_NUM=$(echo "$LAST_TAG" | sed 's/.*\.//')
+            NEXT_NUM=$((LAST_NUM + 1))
+          fi
+          TAG="${DATE_TAG}.${NEXT_NUM}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create tag and release
+        run: |
+          gh release create ${{ steps.tag.outputs.tag }} \
+            --title "${{ inputs.release_title }}" \
+            --notes "${{ inputs.release_body }}" \
+            ${{ inputs.draft && '--draft' || '' }} \
+            ${{ inputs.prerelease && '--prerelease' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
