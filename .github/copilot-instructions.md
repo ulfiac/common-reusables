@@ -19,7 +19,6 @@ This repository is used by several other repositories in the workspace as a shar
 
 - **aws-bootstrap**: Uses the reusable linter workflow to validate Terraform configurations and scripts during CI/CD.
 - **aws-infrastructure**: Leverages the linting workflow for its Terraform code and shell scripts.
-- **aws-tags**: Applies the reusable linter to ensure code quality in its Terraform module.
 - **github-repos**: Utilizes the workflow for maintaining code standards in its Terraform configurations.
 - **vscode-workspaces**: While primarily a workspace configuration, it may benefit from the shared workflows if expanded.
 
