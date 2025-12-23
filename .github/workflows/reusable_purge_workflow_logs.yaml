@@ -7,6 +7,12 @@ on:
         default: 7
         required: false
         type: number
+  workflow_dispatch:
+    inputs:
+      retain-days:
+        default: 7
+        required: false
+        type: number
 
 permissions:
   contents: read
