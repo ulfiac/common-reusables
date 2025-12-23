@@ -76,7 +76,7 @@ The workflow processes up to 1000 workflow runs per execution. For repositories 
 To use this workflow in another repository, add the following to your `.github/workflows/purge-logs.yaml`:
 
 ```yaml
-name: purge-workflow-logs
+name: purge workflow logs
 
 on:
   schedule:
