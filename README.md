@@ -53,18 +53,60 @@ jobs:
 
 The above example disables the shellcheck linter; the other linters remain enabled.  All linters are enabled by default but can be selectively disabled if needed.
 
+### reusable_purge_workflow_logs.yaml
+
+A workflow log cleanup utility that automatically deletes old workflow runs to help manage repository storage and maintain a clean workflow history.
+
+#### Inputs
+
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `retain-days` | number | `7` | Delete workflow runs older than this many days |
+
+#### Permissions Required
+
+This workflow requires `actions: write` permission to delete workflow runs.
+
+#### Limitations
+
+The workflow processes up to 1000 workflow runs per execution. For repositories with a large number of workflow runs exceeding this limit, run the workflow multiple times or schedule it to run more frequently.
+
+#### Usage Example
+
+To use this workflow in another repository, add the following to your `.github/workflows/purge-logs.yaml`:
+
+```yaml
+name: purge-workflow-logs
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  purge-logs:
+    uses: ulfiac/github-action-reusables/.github/workflows/reusable_purge_workflow_logs.yaml@main
+    with:
+      retain-days: 7
+```
+
+This example runs the purge workflow weekly and retains logs for 7 days.
+
 ## Contributing
 
 When adding new reusable workflows:
 - Ensure workflows are generic and configurable through inputs
 - Use pinned action versions for security and reproducibility
-- Update tool versions in `mise.toml` as needed
 - Test changes in dependent repositories before merging
 - Update this README with new workflow documentation
 - Update the copilot instructions
 
 ## Security
 
-- Workflows run with minimal required permissions
+- Workflows run with minimal required permissions by default (`contents: read`)
+- The purge workflow requires `actions: write` permission to delete workflow runs
 - All actions use pinned versions to prevent supply chain attacks
 - Regular security audits and dependency updates are performed
