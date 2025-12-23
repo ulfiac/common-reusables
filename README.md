@@ -80,7 +80,7 @@ name: purge-workflow-logs
 
 on:
   schedule:
-    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight UTC
+    - cron: '0 0 * * *' # run daily at midnight UTC
   workflow_dispatch:
 
 permissions:
