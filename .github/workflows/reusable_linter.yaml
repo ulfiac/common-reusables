@@ -66,7 +66,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: &checkout_action actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
-      - uses: ./.github/actions/dump_context
+      - &dump_context_action
+        name: dump context
+        uses: ulfiac/common-reusables/.github/actions/dump_context@main
       - uses: docker://rhysd/actionlint:1.7.10 # v1.7.10, released 2026-01
         with:
           args: -color
@@ -77,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: *checkout_action
-      - uses: ./.github/actions/dump_context
+      - *dump_context_action
       - uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # v2.0.0, released 2023-01
         with:
           scandir: .
@@ -88,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: *checkout_action
-      - uses: ./.github/actions/dump_context
+      - *dump_context_action
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2, released 2024-08
         with:
           terraform_wrapper: false
@@ -101,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: *checkout_action
-      - uses: ./.github/actions/dump_context
+      - *dump_context_action
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2, released 2024-08
         with:
           terraform_wrapper: false
@@ -118,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: *checkout_action
-      - uses: ./.github/actions/dump_context
+      - *dump_context_action
       - uses: terraform-linters/tflint-load-config-action@5b0f6d9b68043d15c83a05d7a6dc831da411b5dd # v2.0.0, released 2024-02, checked 2026-01
         with:
           source-repo: ulfiac/common-reusables
@@ -136,7 +138,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: *checkout_action
-      - uses: ./.github/actions/dump_context
+      - *dump_context_action
       - uses: aquasecurity/setup-trivy@e6c2c5e321ed9123bda567646e2f96565e34abe1 # v0.2.4, released 2025-08
       - run: trivy --version
       - run: trivy config --exit-code 1 .
