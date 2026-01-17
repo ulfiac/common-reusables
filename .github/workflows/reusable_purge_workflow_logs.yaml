@@ -22,7 +22,7 @@ jobs:
   purge-workflow-logs:
     runs-on: ubuntu-latest
     steps:
-      - name: Purge workflow logs
+      - name: purge workflow logs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
