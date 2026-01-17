@@ -1,0 +1,73 @@
+name: dump-context
+description: "dump GitHub Actions context for debugging reusable workflows"
+
+# context concept:
+# https://docs.github.com/en/actions/concepts/workflows-and-actions/contexts
+
+# context reference:
+# https://docs.github.com/en/actions/reference/workflows-and-actions/contexts
+
+# ::group:: and ::endgroup:: are GitHub Actions workflow commands
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#grouping-log-lines
+
+inputs:
+  annotate:
+    default: false
+    description: "Whether to add an annotation notice in the workflow"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: dump context
+      shell: bash
+      run: |
+        echo -e "Dumping context...\n"
+
+        echo "::group::env context:"
+        echo "${{ toJson(env) }}"
+        echo "::endgroup::"
+
+        echo "::group::github context:"
+        echo "${{ toJson(github) }}"
+        echo "::endgroup::"
+
+        echo "::group::inputs context:"
+        echo "${{ toJson(inputs) }}"
+        echo "::endgroup::"
+
+        echo "::group::job context:"
+        echo "${{ toJson(job) }}"
+        echo "::endgroup::"
+
+        echo "::group::matrix context:"
+        echo "${{ toJson(matrix) }}"
+        echo "::endgroup::"
+
+        echo "::group::needs context:"
+        echo "${{ toJson(needs) }}"
+        echo "::endgroup::"
+
+        echo "::group::runner context:"
+        echo "${{ toJson(runner) }}"
+        echo "::endgroup::"
+
+        echo "::group::secrets context:"
+        echo "[REDACTED: secrets context is not logged for security reasons]"
+        echo "::endgroup::"
+
+        echo "::group::steps context:"
+        echo "${{ toJson(steps) }}"
+        echo "::endgroup::"
+
+        echo "::group::strategy context:"
+        echo "${{ toJson(strategy) }}"
+        echo "::endgroup::"
+
+        echo "::group::vars context:"
+        echo "${{ toJson(vars) }}"
+        echo "::endgroup::"
+
+        if [ "${{ inputs.annotate }}" = "true" ]; then
+          echo -e "\n::notice::Context details.\n"
+        fi
