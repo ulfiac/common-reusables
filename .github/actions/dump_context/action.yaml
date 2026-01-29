@@ -32,9 +32,9 @@ runs:
         echo "${{ toJson(github) }}"
         echo "::endgroup::"
 
-        echo "::group::inputs context:"
-        echo "${{ toJson(inputs) }}"
-        echo "::endgroup::"
+        # echo "::group::inputs context:"
+        # echo "${{ toJson(inputs) }}"
+        # echo "::endgroup::"
 
         echo "::group::job context:"
         echo "${{ toJson(job) }}"
