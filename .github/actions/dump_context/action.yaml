@@ -15,6 +15,50 @@ inputs:
     default: false
     description: "Whether to add an annotation notice in the workflow"
     required: false
+  env:
+    default: true
+    description: "Whether to dump env context"
+    required: false
+  github:
+    default: true
+    description: "Whether to dump github context"
+    required: false
+  context_inputs:
+    default: true
+    description: "Whether to dump inputs context"
+    required: false
+  job:
+    default: true
+    description: "Whether to dump job context"
+    required: false
+  matrix:
+    default: true
+    description: "Whether to dump matrix context"
+    required: false
+  needs:
+    default: false
+    description: "Whether to dump needs context"
+    required: false
+  runner:
+    default: true
+    description: "Whether to dump runner context"
+    required: false
+  secrets:
+    default: false
+    description: "Whether to dump secrets context"
+    required: false
+  steps:
+    default: true
+    description: "Whether to dump steps context"
+    required: false
+  strategy:
+    default: true
+    description: "Whether to dump strategy context"
+    required: false
+  vars:
+    default: true
+    description: "Whether to dump vars context"
+    required: false
 
 runs:
   using: "composite"
@@ -24,49 +68,71 @@ runs:
       run: |
         echo -e "Dumping context...\n"
 
-        echo "::group::env context:"
-        echo "${{ toJson(env) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.env }}" = "true" ]; then
+          echo "::group::env context:"
+          echo "${{ toJson(env) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::github context:"
-        echo "${{ toJson(github) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.github }}" = "true" ]; then
+          echo "::group::github context:"
+          echo "${{ toJson(github) }}"
+          echo "::endgroup::"
+        fi
 
-        # echo "::group::inputs context:"
-        # echo "${{ toJson(inputs) }}"
-        # echo "::endgroup::"
+        if [ "${{ inputs.context_inputs }}" = "true" ]; then
+          echo "::group::inputs context:"
+          echo "${{ toJson(inputs) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::job context:"
-        echo "${{ toJson(job) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.job }}" = "true" ]; then
+          echo "::group::job context:"
+          echo "${{ toJson(job) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::matrix context:"
-        echo "${{ toJson(matrix) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.matrix }}" = "true" ]; then
+          echo "::group::matrix context:"
+          echo "${{ toJson(matrix) }}"
+          echo "::endgroup::"
+        fi
 
-        # echo "::group::needs context:"
-        # echo "${{ toJson(needs) }}"
-        # echo "::endgroup::"
+        if [ "${{ inputs.needs }}" = "true" ]; then
+          echo "::group::needs context:"
+          echo "${{ toJson(needs) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::runner context:"
-        echo "${{ toJson(runner) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.runner }}" = "true" ]; then
+          echo "::group::runner context:"
+          echo "${{ toJson(runner) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::secrets context:"
-        echo "[REDACTED: secrets context is not logged for security reasons]"
-        echo "::endgroup::"
+        if [ "${{ inputs.secrets }}" = "true" ]; then
+          echo "::group::secrets context:"
+          echo "${{ toJson(secrets) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::steps context:"
-        echo "${{ toJson(steps) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.steps }}" = "true" ]; then
+          echo "::group::steps context:"
+          echo "${{ toJson(steps) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::strategy context:"
-        echo "${{ toJson(strategy) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.strategy }}" = "true" ]; then
+          echo "::group::strategy context:"
+          echo "${{ toJson(strategy) }}"
+          echo "::endgroup::"
+        fi
 
-        echo "::group::vars context:"
-        echo "${{ toJson(vars) }}"
-        echo "::endgroup::"
+        if [ "${{ inputs.vars }}" = "true" ]; then
+          echo "::group::vars context:"
+          echo "${{ toJson(vars) }}"
+          echo "::endgroup::"
+        fi
 
         if [ "${{ inputs.annotate }}" = "true" ]; then
           echo -e "\n::notice::Context details.\n"
