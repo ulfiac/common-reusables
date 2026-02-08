@@ -73,7 +73,8 @@ jobs:
     if: ${{ inputs.actionlint }}
     runs-on: ubuntu-latest
     steps:
-      - uses: &checkout_action actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
+      - &checkout_action
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1, released 2025-12
       - &dump_context_action
         name: dump context
         uses: ulfiac/common-reusables/.github/actions/dump_context@main
@@ -86,7 +87,7 @@ jobs:
     if: ${{ inputs.shellcheck }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # v2.0.0, released 2023-01
         with:
@@ -97,7 +98,7 @@ jobs:
     if: ${{ inputs.terraform-docs }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: terraform-docs/gh-actions@6de6da0cefcc6b4b7a5cbea4d79d97060733093c # v1.4.1, released 2025-05, checked 2026-01
         with:
@@ -110,7 +111,7 @@ jobs:
     if: ${{ inputs.terraform-fmt }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2, released 2024-08
         with:
@@ -123,7 +124,7 @@ jobs:
     if: ${{ inputs.terragrunt-hcl-fmt }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2, released 2024-08
         with:
@@ -140,7 +141,7 @@ jobs:
     if: ${{ inputs.tflint }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: terraform-linters/tflint-load-config-action@5b0f6d9b68043d15c83a05d7a6dc831da411b5dd # v2.0.0, released 2024-02, checked 2026-01
         with:
@@ -158,7 +159,7 @@ jobs:
     if: ${{ inputs.trivy-config }}
     runs-on: ubuntu-latest
     steps:
-      - uses: *checkout_action
+      - *checkout_action
       - *dump_context_action
       - uses: aquasecurity/setup-trivy@e6c2c5e321ed9123bda567646e2f96565e34abe1 # v0.2.4, released 2025-08
       - run: trivy --version
